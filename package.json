@@ -1,0 +1,21 @@
+{
+  "name": "flying-balaya",
+  "version": "1.0.0",
+  "description": "Flying Balaya (బాలయ్య గేమ్) - The Viral Telugu Meme Arcade Game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "flying-balaya",
+    "flying-balayya",
+    "balayya",
+    "telugu-meme",
+    "flappy-bird",
+    "game"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}
+

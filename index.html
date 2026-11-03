@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BALAYYA: HUNTER ASSASSIN (బాలయ్య గేమ్)</title>
+  <meta name="description" content="Hunter Assassin style stealth action game featuring Nandamuri Balakrishna, patrolling police with flashlights, wooden crates, and Mansion House bottles!">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo-mark.png">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Full App Background (Cream Dot Grid Matching Image 1 & 4) -->
+  <div class="app-background">
+
+    <!-- Central Stage Card (Strict Container - Nothing Spills Out) -->
+    <div id="mainStageCard" class="main-stage-card">
+
+      <!-- ========================================================
+           1. HOME MENU SCREEN (Matching Image 1: Palace Escape Style)
+           - Previous Balayya Akhanda image restored as requested!
+           ======================================================== -->
+      <div id="homeView" class="home-screen-view">
+        <!-- Sunburst Radiance Behind Balayya -->
+        <div class="sunburst-rays"></div>
+
+        <div class="home-content-grid">
+          <!-- Left: Hero Character Balayya Akhanda Pose (Previous Image Restored) -->
+          <div class="home-hero-col">
+            <img src="assets/images/balayya_akhanda.png" alt="Balayya Akhanda" class="home-hero-img">
+          </div>
+
+          <!-- Right: Game Branding, Golden 3D Button & Sub-Menus -->
+          <div class="home-menu-col">
+            <h1 class="home-main-title">
+              BALAYYA<br>
+              <span class="title-sub">HUNTER ASSASSIN</span>
+            </h1>
+            <p class="home-tagline">Help Balayya get his Mansion House</p>
+            <p class="home-subtext">Escape fast. Take down corrupt police.</p>
+
+            <!-- 3D Golden Pill Button -->
+            <button type="button" id="btnHomeContinue" class="btn-gold-3d-continue">
+              <span class="btn-triangle">▷</span>
+              <span id="btnContinueText">CONTINUE • LEVEL 1</span>
+            </button>
+
+            <!-- Sub Buttons Row -->
+            <div class="home-sub-btn-row">
+              <button type="button" id="btnOpenHowToPlay" class="sub-pill-btn">
+                <span>🎮 How to play</span>
+              </button>
+              <button type="button" id="btnOpenLegend" class="sub-pill-btn">
+                <span>📜 Legend</span>
+              </button>
+              <button type="button" id="btnOpenLevels" class="sub-pill-btn">
+                <span>👑 Levels</span>
+              </button>
+            </div>
+
+            <p class="home-flavor-note">
+              Every level, Balayya recovers confiscated Mansion House reserves.
+            </p>
+
+            <!-- Footer Action Row -->
+            <div class="home-footer-row">
+              <button type="button" id="btnResetProgress" class="home-text-link">Start over from Level 1</button>
+              <span class="footer-divider">•</span>
+              <button type="button" id="btnHomeSoundToggle" class="home-text-link">🔊 Sound on</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================================
+           2. IN-GAME VIEW (Hunter Assassin Stealth Arena)
+           - Level, Menu, Pause, Targets, HP OUTSIDE the game board!
+           - Game board (canvas) is 100% unobstructed!
+           ======================================================== -->
+      <div id="gameView" class="game-play-view hidden">
+        
+        <!-- DEDICATED TOP HEADER BAR (EXACT PREVIOUS LAYOUT MATCHING USER SCREENSHOT) -->
+        <header class="game-header-bar">
+          <!-- Left: Target Counter + Balayya Energy HP Bar -->
+          <div class="header-left">
+            <div class="target-counter-box" title="Targets Remaining">
+              <svg class="target-icon-svg" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"></circle>
+                <circle cx="12" cy="12" r="4"></circle>
+                <line x1="12" y1="1" x2="12" y2="5"></line>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="1" y1="12" x2="5" y2="12"></line>
+                <line x1="19" y1="12" x2="23" y2="12"></line>
+              </svg>
+              <span id="hudTargetText">0/2</span>
+            </div>
+
+            <div id="hudCenterHp" class="hud-center-hp-bar">
+              <img src="assets/images/balayya_hero.png" alt="Balayya" class="header-balayya-avatar" title="Nandamuri Balakrishna">
+              <span class="hp-label">HP</span>
+              <div class="hp-bar-track">
+                <div id="playerHpFill" class="hp-bar-fill" style="width: 100%;"></div>
+              </div>
+              <span id="playerHpText" class="hp-num">100%</span>
+            </div>
+          </div>
+
+          <!-- Center: Clean Level Indicator Badge (Matches Image 1) -->
+          <div class="header-center">
+            <div id="hudLevelBadge" class="hud-level-badge">
+              <span id="taskLevelName">LVL 1</span>
+            </div>
+          </div>
+
+          <!-- Right: Total Bottles Counter + Sound Toggle + Pause + Menu -->
+          <div class="header-right">
+            <div class="hud-pill-btn bottle-pill" title="Total Confiscated Bottles">
+              <span>🍾</span>
+              <span id="hudBottleText">0</span>
+            </div>
+
+            <button type="button" id="btnGameSound" class="hud-pill-btn icon-btn" title="Toggle Sound">🔊</button>
+
+            <button type="button" id="btnGamePause" class="hud-pill-btn" title="Pause Game (Esc)">
+              <span>⏸<span class="btn-lbl-desk"> Pause</span></span>
+            </button>
+
+            <button type="button" id="btnReturnHome" class="hud-pill-btn home-return-btn" title="Return to Menu">
+              <span>🏠<span class="btn-lbl-desk"> Menu</span></span>
+            </button>
+          </div>
+        </header>
+
+        <!-- DEDICATED SLIM BOSS HP STRIP (APPEARS DIRECTLY UNDER HEADER ON BOSS LEVELS) -->
+        <div id="bossBarBox" class="hud-boss-strip hidden">
+          <span class="boss-name">🚨 BOSS DSP SHANKAR:</span>
+          <div class="boss-hp-track">
+            <div id="bossHpFill" class="boss-hp-fill" style="width: 100%;"></div>
+          </div>
+          <span id="bossHpText" class="boss-hp-num">700 / 700 HP</span>
+        </div>
+
+        <!-- GAME BOARD VIEWPORT (CLEAN & UNOBSTRUCTED PLAYFIELD) -->
+        <main class="game-board-viewport">
+          <div class="canvas-wrapper">
+            <canvas id="hunterCanvas" width="960" height="620" tabindex="0"></canvas>
+          </div>
+        </main>
+
+        <!-- FULL-VIEWPORT GAME MODALS (DIMS & COVERS ENTIRE SCREEN, Z-INDEX 100) -->
+        <!-- VICTORY MODAL (STAGE CLEARED - ALL DATA SHOWN HERE) -->
+        <div id="modalVictory" class="game-modal-layer hidden">
+            <div class="modal-card">
+              <div class="star-rating-row">⭐⭐⭐</div>
+              <h2 class="modal-header-title victory">STAGE CLEARED!</h2>
+              <p id="victorySummary" class="modal-caption">All corrupt police eliminated! Sector loot secured.</p>
+
+              <!-- Detailed Mission Report Card (Shown After Complete) -->
+              <div class="mission-stats-summary-card">
+                <div class="summary-stat-row">
+                  <span class="stat-label">📍 Sector:</span>
+                  <span id="vicSectorName" class="stat-value gold">Sector 1</span>
+                </div>
+                <div class="summary-stat-row">
+                  <span class="stat-label">🎯 Targets Eliminated:</span>
+                  <span id="vicGuardsText" class="stat-value green">2 / 2</span>
+                </div>
+                <div class="summary-stat-row">
+                  <span class="stat-label">🍾 Sector Loot Found:</span>
+                  <span id="vicBottlesText" class="stat-value gold">2 / 2 Bottles</span>
+                </div>
+                <div class="summary-stat-row">
+                  <span class="stat-label">🏆 Total Bottles Banked:</span>
+                  <span id="vicTotalBottlesText" class="stat-value gold">0 Bottles</span>
+                </div>
+                <div class="summary-stat-row">
+                  <span class="stat-label">❤️ Balayya HP Energy:</span>
+                  <span id="vicHpText" class="stat-value green">100%</span>
+                </div>
+              </div>
+
+              <button type="button" id="btnNextStage" class="btn-gold-action">
+                <span>▷ NEXT STAGE</span>
+              </button>
+              <div class="modal-sub-actions">
+                <button type="button" id="btnVictoryLevels" class="sub-pill-btn">
+                  <span>👑 Select Level</span>
+                </button>
+                <button type="button" id="btnVictoryHome" class="sub-pill-btn">
+                  <span>🏠 Return to Menu</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- DEFEAT MODAL (SPOTTED BY POLICE - ALL DATA SHOWN HERE) -->
+          <div id="modalDefeat" class="game-modal-layer hidden">
+            <div class="modal-card">
+              <img src="assets/images/fail.jpg?v=2" alt="Balayya Caught" class="meme-defeat-avatar">
+              <h2 class="modal-header-title defeat">SPOTTED & CAUGHT!</h2>
+              <p class="modal-caption">The corrupt police caught you in their flashlight beam!</p>
+
+              <!-- Detailed Sector Progress (Shown When Out) -->
+              <div class="mission-stats-summary-card defeat-stats">
+                <div class="summary-stat-row">
+                  <span class="stat-label">📍 Sector Attempted:</span>
+                  <span id="defSectorName" class="stat-value red">Sector 1</span>
+                </div>
+                <div class="summary-stat-row">
+                  <span class="stat-label">🎯 Targets Taken Down:</span>
+                  <span id="defGuardsText" class="stat-value">0 / 2</span>
+                </div>
+                <div class="summary-stat-row">
+                  <span class="stat-label">🍾 Sector Loot Grabbed:</span>
+                  <span id="defBottlesText" class="stat-value">0 / 2</span>
+                </div>
+                <div class="summary-stat-row">
+                  <span class="stat-label">🏆 Total Bottles Banked:</span>
+                  <span id="defTotalBottlesText" class="stat-value gold">0 Bottles</span>
+                </div>
+              </div>
+
+              <button type="button" id="btnRetryStage" class="btn-gold-action">
+                <span>▷ RETRY STAGE</span>
+              </button>
+              <div class="modal-sub-actions">
+                <button type="button" id="btnDefeatLevels" class="sub-pill-btn">
+                  <span>👑 Select Level</span>
+                </button>
+                <button type="button" id="btnDefeatHome" class="sub-pill-btn">
+                  <span>🏠 Return to Menu</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- GAME COMPLETE MODAL (ALL LEVELS CLEARED) -->
+          <div id="modalGameComplete" class="game-modal-layer hidden">
+            <div class="modal-card">
+              <div style="font-size:3.2rem; margin-bottom:0.4rem; filter:drop-shadow(0 0 20px #ffd700);">👑 🍾 🏆</div>
+              <h2 class="modal-header-title victory" style="font-size:2.2rem;">BALAYYA THE LEGEND!</h2>
+              <p class="modal-caption">All 50 Levels Cleared! Apex Commissioner Shankar has been defeated and all sectors are liberated! All Mansion House reserves secured!</p>
+
+              <button type="button" id="btnPlayAgain" class="btn-gold-action">
+                <span>▷ PLAY FROM LEVEL 1</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- PAUSE MODAL (DATA SHOWN WHEN PAUSED) -->
+          <div id="modalPaused" class="game-modal-layer hidden">
+            <div class="modal-card">
+              <h2 class="modal-header-title" style="color:#ffffff;">PAUSED</h2>
+              <p class="modal-caption">Take cover behind wooden crates [X] and plan your stealth takedown!</p>
+
+              <div class="mission-stats-summary-card">
+                <div class="summary-stat-row">
+                  <span class="stat-label">📍 Current Sector:</span>
+                  <span id="pauseSectorName" class="stat-value gold">Sector 1</span>
+                </div>
+                <div class="summary-stat-row">
+                  <span class="stat-label">🎯 Targets Remaining:</span>
+                  <span id="pauseGuardsText" class="stat-value green">2 Guards</span>
+                </div>
+                <div class="summary-stat-row">
+                  <span class="stat-label">🍾 Sector Loot Found:</span>
+                  <span id="pauseBottlesText" class="stat-value gold">0 / 2</span>
+                </div>
+                <div class="summary-stat-row">
+                  <span class="stat-label">🏆 Total Bottles Banked:</span>
+                  <span id="pauseTotalBottlesText" class="stat-value gold">0 Bottles</span>
+                </div>
+              </div>
+
+              <button type="button" id="btnResumeGame" class="btn-gold-action">
+                <span>▷ RESUME GAME</span>
+              </button>
+              <div class="modal-sub-actions">
+                <button type="button" id="btnPauseSound" class="sub-pill-btn">
+                  <span id="pauseSoundText">🔊 Sound: ON</span>
+                </button>
+                <button type="button" id="btnPauseLevels" class="sub-pill-btn">
+                  <span>👑 Select Level</span>
+                </button>
+                <button type="button" id="btnPauseHome" class="sub-pill-btn">
+                  <span>🏠 Quit to Menu</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <!-- ========================================================
+           3. HOME SUB-MODALS (How to Play, Legend, Level Select)
+           ======================================================== -->
+      <!-- HOW TO PLAY MODAL -->
+      <div id="modalHowToPlay" class="dialog-modal-layer hidden">
+        <div class="dialog-card">
+          <h2 class="dialog-title">🎮 HOW TO PLAY</h2>
+          <div class="dialog-body-text">
+            <p><strong>• Tap or Drag:</strong> Tap or drag anywhere on screen. Balayya automatically navigates around walls and crates using smart A* pathfinding.</p>
+            <p><strong>• Wooden Crates [X]:</strong> Stand behind wooden crates to hide in the shadows. Police flashlight beams cannot pierce through crates!</p>
+            <p><strong>• Stealth Takedowns:</strong> Sneak up behind any police officer to execute an instant mass takedown.</p>
+            <p><strong>• Laser Tripwires:</strong> Avoid crossing red moving laser security beams to prevent sounding the alarm!</p>
+            <p><strong>• Mansion House Bottles:</strong> Collect upright bottles dropped by defeated police or hidden in warehouse corners.</p>
+          </div>
+          <button type="button" id="btnCloseHowToPlay" class="btn-gold-action" style="margin-top:1.2rem; padding:0.6rem 2.2rem;">
+            <span>GOT IT</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- LEGEND MODAL -->
+      <div id="modalLegend" class="dialog-modal-layer hidden">
+        <div class="dialog-card">
+          <h2 class="dialog-title">🦁 THE BALAYYA LEGEND</h2>
+          <div class="dialog-body-text">
+            <p><strong>"Flute jinka mundhu oodhu, simham mundhu kaadhu!"</strong></p>
+            <p>Corrupt police under Commissioner DSP Shankar have confiscated the state's prized Mansion House reserves across 5 fortified warehouse sectors.</p>
+            <p>Balayya enters alone as the stealth hunter assassin. Through shadows, crates, and laser grids, no corrupt cop can escape his mass strike!</p>
+          </div>
+          <button type="button" id="btnCloseLegend" class="btn-gold-action" style="margin-top:1.2rem; padding:0.6rem 2.2rem;">
+            <span>CLOSE</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ========================================================
+           FULL-CARD LEVEL DIRECTORY SCREEN (CLEAN LEVEL TILES)
+           - Only shows LEVEL 1, LEVEL 2, LEVEL 3... without long names
+           ======================================================== -->
+      <div id="levelsView" class="levels-fullcard-view hidden">
+        <!-- Top Sticky Header -->
+        <header class="levels-header-bar">
+          <div class="levels-header-left">
+            <button type="button" id="btnLevelsBackHome" class="hud-pill-btn home-return-btn">
+              <span>← Back to Menu</span>
+            </button>
+          </div>
+          <div class="levels-header-center">
+            <h2 class="levels-view-title">👑 SELECT LEVEL</h2>
+            <p class="levels-view-subtitle">Tap any level to start playing</p>
+          </div>
+          <div class="levels-header-right">
+            <div class="hud-pill-btn bottle-badge" title="Total Confiscated Bottles Recovered">
+              <span>🍾</span>
+              <span id="levelsBottleCount">0</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- Filter Category Tabs (5 Worlds + Boss Battles) -->
+        <div class="levels-filter-bar">
+          <button type="button" class="level-tab-btn active" data-filter="all">All Levels (1–50)</button>
+          <button type="button" class="level-tab-btn" data-filter="w1">World 1 (1–10)</button>
+          <button type="button" class="level-tab-btn" data-filter="w2">World 2 (11–20)</button>
+          <button type="button" class="level-tab-btn" data-filter="w3">World 3 (21–30)</button>
+          <button type="button" class="level-tab-btn" data-filter="w4">World 4 (31–40)</button>
+          <button type="button" class="level-tab-btn" data-filter="w5">World 5 (41–50)</button>
+          <button type="button" class="level-tab-btn boss-tab" data-filter="boss">👑 Boss Battles</button>
+        </div>
+
+        <!-- Clean Grid of Level Cards (Only Level 1, Level 2, etc.) -->
+        <div id="levelsCardGrid" class="levels-cards-grid">
+          <!-- Populated dynamically by game.js renderLevelsDirectory() -->
+        </div>
+      </div>
+
+      <!-- Toast Notification Badge -->
+      <div id="toastBadge" class="toast-badge"></div>
+
+    </div>
+  </div>
+
+  <!-- Preloaded Multi-Track Audio Elements for Guaranteed Zigzag Level Swapping -->
+  <audio id="gameBgm" preload="auto" loop>
+    <source src="assets/audio/bgm.mp3" type="audio/mpeg">
+    <source src="assets/audio/bgm.m4a" type="audio/mp4">
+  </audio>
+  <audio id="gameBgm1" src="assets/audio/bgm.mp3" preload="auto" loop></audio>
+  <audio id="gameBgm2" src="assets/audio/bgm.m4a" preload="auto" loop></audio>
+  <audio id="gameBgm3" src="assets/audio/bgm_full.mp3" preload="auto" loop></audio>
+  <audio id="bottleAudio" src="assets/audio/mansion_house.mp3" preload="auto"></audio>
+  <audio id="spottedAudio" src="assets/audio/spotted.mp3" preload="auto"></audio>
+  <audio id="crashAudio" src="assets/audio/crash.mp3?v=3" preload="auto"></audio>
+  <audio id="bossVictoryAudio" src="assets/audio/boss_victory.mp3?v=1" preload="auto"></audio>
+  <audio id="levelVictoryAudio" src="assets/audio/level_victory.mp3?v=3" preload="auto"></audio>
+  <audio id="bossDefeatAudio" src="assets/audio/boss_defeat.mp3?v=1" preload="auto"></audio>
+
+  <!-- Game Engine Script -->
+  <script src="game.js"></script>
+</body>
+</html>
