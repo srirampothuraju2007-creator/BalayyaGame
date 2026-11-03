@@ -24,3 +24,4 @@ for (const file of files) {
 }
 
 console.log('Static assets successfully compiled into public/ directory!');
+
