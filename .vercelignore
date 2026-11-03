@@ -1,6 +1,6 @@
 .git
 .gitignore
-server.js
+local-server.js
 package.json
 package-lock.json
 README.md
