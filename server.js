@@ -1,5 +1,5 @@
 /**
- * Lightweight Zero-Dependency Local Static Server for Flying Balaya
+ * Lightweight Static Server for Flying Balaya
  */
 
 const http = require('http');
@@ -7,7 +7,9 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = process.env.PORT || 3000;
-const PUBLIC_DIR = __dirname;
+const PUBLIC_DIR = fs.existsSync(path.join(__dirname, 'public')) 
+  ? path.join(__dirname, 'public') 
+  : __dirname;
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -27,7 +29,6 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
-  // CORS and Cache Control
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
 
@@ -37,7 +38,6 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // Parse requested pathname
   let reqPath = decodeURI(req.url.split('?')[0]);
   if (reqPath === '/' || reqPath === '') {
     reqPath = '/index.html';
@@ -45,7 +45,6 @@ const server = http.createServer((req, res) => {
 
   const filePath = path.normalize(path.join(PUBLIC_DIR, reqPath));
 
-  // Security check: ensure path is within PUBLIC_DIR
   if (!filePath.startsWith(PUBLIC_DIR)) {
     res.writeHead(403, { 'Content-Type': 'text/plain' });
     res.end('403 Forbidden');
@@ -62,7 +61,6 @@ const server = http.createServer((req, res) => {
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
-    // Support HTTP Range for smooth audio streaming (bgm.m4a, crash.mp3)
     const range = req.headers.range;
     if (range && (contentType.startsWith('audio/') || contentType.startsWith('video/'))) {
       const parts = range.replace(/bytes=/, '').split('-');
